@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="OC P4, Billetterie pour le musée du Louvre.">
+    <meta name="author" content="Scoomdev">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>{% block title %}Billetterie Louvre{% endblock title %}</title>
+
+    {% block stylesheet %}
+    <!-- Twitter Boostrap CSS CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Personal CSS -->
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <!-- Pickadate CSS -->
+    <link rel="stylesheet" href="{{ asset('js/pickadate/lib/themes/classic.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/pickadate/lib/themes/classic.date.css') }}">
+    {% endblock stylesheet %}
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <header>
+        {% include "TLCoreBundle:Core:inc/navbar.html.twig" %}
+    </header>
+
+    {% block body %}
+    {% endblock body %}
+
+    <footer>
+        
+    </footer>
+    {% block javascript %}
+    <!-- Jquery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Twitter Boostrap JS CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{{ asset('js/ie10-viewport-bug-workaround.js') }}"></script>
+    <!-- Pickadate -->
+    <script src="{{ asset('js/pickadate/lib/legacy.js') }}"></script>
+    <script src="{{ asset('js/pickadate/lib/picker.js') }}"></script>
+    <script src="{{ asset('js/pickadate/lib/picker.date.js') }}"></script>
+    <script src="{{ asset('js/pickadate/lib/translations/fr_FR.js') }}"></script>
+    <script src="{{ asset('js/init-pickadate.js') }}"></script>
+    {% endblock javascript %}
+</body>
+</html>

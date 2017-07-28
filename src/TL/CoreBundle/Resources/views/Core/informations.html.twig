@@ -1,0 +1,71 @@
+{% extends "TLCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    Renseignement - {{ parent() }}
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <h1>Renseignement</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <img class="img-responsive" src="{{ asset('img/louvre.jpg') }}" alt="Photo du musée du Louvre">
+                    </div>
+                    <div class="panel-body">
+                        <form method="post">
+                            <div class="form-group">
+                                <label for="day">Choississez la date de visite</label>
+                                <input class="datepicker form-control" type="date" class="form-control" id="day" placeholder="clic me !">
+                            </div>
+                            <div class="form-group">
+                                <label for="nbrPerson">Combien de personnes</label>
+                                <input type="number" class="form-control" id="nbrPerson" min="1" max="9" value="1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Réserver !</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Résumé de la réservation</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>le : {{ date }}</p>
+                        <p>Pour {{ nbrPerson }} personnes</p>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Informations</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="lead"><span class="glyphicon glyphicon-time text-success" aria-hidden="true"></span></td>
+                                    <td>Horaires</td>
+                                    <td>Lundi, jeudi, samedi, dimanche : 9h00 - 18h00. Mercredi, vendredi : 9h00 - 21h45.</td>
+                                </tr>
+                                <tr>
+                                    <td class="lead"><span class="glyphicon glyphicon-remove-circle text-danger" aria-hidden="true"></span></td>
+                                    <td>Fermé</td>
+                                    <td>Tout les mardis et les 1er mai, 1er novembre et 25 décembre.</td>
+                                </tr>
+                                <tr>
+                                    <td class="lead"><span class="glyphicon glyphicon-info-sign text-info" aria-hidden="true"></span></td>
+                                    <td>Types</td>
+                                    <td>Journée et demi-journée (à partir de 14h).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+{% endblock body %}
