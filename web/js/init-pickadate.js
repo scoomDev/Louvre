@@ -3,6 +3,12 @@ $(document).ready(function(){
     var day = new Date();
     var year = day.getFullYear();
     var month = day.getMonth();
+    
+    $('.birthday').pickadate({
+        selectYears: 110,
+        selectMonths: true,
+        max: new Date()
+    });
 
     $('.datepicker').pickadate({
         min: day,

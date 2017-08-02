@@ -3,8 +3,5 @@ tl_core_homepage:
     defaults: { _controller: TLCoreBundle:Core:index }
 
 tl_core_informations:
-    path:     /informations/{date}/{nbrPerson}
+    path:     /informations
     defaults: { _controller: TLCoreBundle:Core:informations }
-    requirements:
-        date: ^\d{4}\/\d{2}\/\d{2}
-        nbrPerson: \d{1}
