@@ -24,6 +24,7 @@ $(document).ready(function() {
 
         var checkbox = []
         checkbox[index+1] = $('#tl_corebundle_command_tickets_ticket'+(index+1)+' input[type=checkbox]')
+        checkbox[index+1].attr("disabled", true)
         checkbox[index+1].click(function() {
             if($(this).is(':checked')) {
                 $('.ticket_'+index).html('1 ticket tarif réduit <span class="pull-right"><span class="price">10</span>€</span>')
@@ -41,15 +42,22 @@ $(document).ready(function() {
             let $birthdayTS = new Date($birthday).getTime()
             let todayTS = new Date()
             interval = Math.floor((todayTS - $birthdayTS)/1000/365/30/24/60/2)
-            if (interval >= 60) {
-                 $('.ticket_'+index).html('1 ticket senior <span class="pull-right"><span class="price">12</span>€</span>')
-            } else if(interval < 12 && interval >= 4) {
-                 $('.ticket_'+index).html('1 ticket enfant <span class="pull-right"><span class="price">4</span>€</span>')
-            } else if(interval < 4) {
-                $('.ticket_'+index).html('1 ticket gratuit <span class="pull-right"><span class="price">0</span>€</span>')
-            } else {
-                $('.ticket_'+index).html('1 ticket normal <span class="pull-right"><span class="price">16</span>€</span>')
-            }            
+            if(!checkbox[index+1].is(':checked')) {
+                if (interval >= 60) {
+                    checkbox[index+1].removeAttr("disabled")
+                    $('.ticket_'+index).html('1 ticket senior <span class="pull-right"><span class="price">12</span>€</span>')
+                } else if(interval < 12 && interval >= 4) {
+                    $('.ticket_'+index).html('1 ticket enfant <span class="pull-right"><span class="price">4</span>€</span>')
+                    checkbox[index+1].attr("disabled", true)
+                } else if(interval < 4) {
+                    $('.ticket_'+index).html('1 ticket gratuit <span class="pull-right"><span class="price">0</span>€</span>')
+                    console.log('disabled checkbox !!')
+                    checkbox[index+1].attr("disabled", true)
+                } else {
+                    checkbox[index+1].removeAttr("disabled")
+                    $('.ticket_'+index).html('1 ticket normal <span class="pull-right"><span class="price">16</span>€</span>')
+                } 
+            }           
         }
 
         $(element).change(function() {

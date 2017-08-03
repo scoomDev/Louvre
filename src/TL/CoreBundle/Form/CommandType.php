@@ -29,60 +29,22 @@ class CommandType extends AbstractType
     {
         // basic FORM
         $builder
-        ->add('day', DateType::class, [
-            'widget' => 'single_text',
-            'html5' => false,
-            'format' => 'yyyy/MM/dd',
-            'attr' => ['class' => 'datepicker']
+        ->add('completeName', TextType::class, [
+            'label' => 'Votre nom complet'
         ])
-        ->add('completeName', TextType::class)
-        ->add('email', EmailType::class)
-        ->add('nbrPerson', IntegerType::class, [
-            'attr' => [
-                'min' => 1,
-                'max' => 9
-            ]
+        ->add('email', EmailType::class, [
+            'label' => 'Votre adresse email'
         ])
-        ->add('type', ChoiceType::class, [
-            'choices' => [
-                'Whole day' => 'day',
-                'From 2pm' => 'halfDay',
-            ]
-        ])
+        ->add('nbrPerson', HiddenType::class)
         ->add('tickets', CollectionType::class, [
             'entry_type' => TicketType::class,
             'allow_add' => true,
             'allow_delete' => true
         ])
         ->add('send', SubmitType::class, [
+            'label' => 'Valider les informations',
             'attr' => ['class' => 'btn btn-success']
         ]);
-
-        // FORM for Informations Path
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function(FormEvent $event) {
-                $command = $event->getData();
-                if(null === $command) {
-                    return;
-                }
-                $request = Request::createFromGlobals();
-                $pathInfo = $request->getPathInfo();
-
-                if ($pathInfo === '/informations') {
-                    $event->getForm()->add('tickets', CollectionType::class, [
-                        'entry_type' => TicketType::class,
-                        'allow_add' => true,
-                        'allow_delete' => true
-                    ])
-                    ->add('nbrPerson', HiddenType::class)
-                    ->remove('day')
-                    ->remove('type');
-                } else {
-                    $event->getForm()->remove('tickets');
-                }
-            }
-        );
     }
     
     /**

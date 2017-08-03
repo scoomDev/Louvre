@@ -22,18 +22,17 @@ class StartType extends AbstractType
     {
         $builder
         ->add('day', DateType::class, [
-            'label' => 'Your Visit Day',
+            'label' => 'Jour de la visite',
             'widget' => 'single_text',
             'placeholder' => 'cliquez ici !',
             'html5' => false,
             'format' => 'yyyy/MM/dd',
             'attr' => ['class' => 'datepicker']
         ])
-        ->add('completeName', TextType::class, ['label' => 'Your Complete Name'])
-        ->add('email', EmailType::class, ['label' => 'Your Email address'])
+        ->add('completeName', TextType::class, ['label' => 'Votre nom complet'])
+        ->add('email', EmailType::class, ['label' => 'Votre adresse email'])
         ->add('nbrPerson', IntegerType::class, [
-            'label' => 'How Many People',
-            'data' => 1,
+            'label' => 'Pour combien de personnes',
             'attr' => [
                 'min' => 1,
                 'max' => 9
@@ -41,12 +40,13 @@ class StartType extends AbstractType
         ])
         ->add('type', ChoiceType::class, [
             'choices' => [
-                'Whole day' => 'day',
-                'From 2pm' => 'halfDay',
+                'Journée' => 'day',
+                'Demi-journée' => 'halfDay',
             ]
         ])
         ->add('send', SubmitType::class, [
-            'attr' => ['class' => 'btn btn-primary']
+            'label' => 'Je réserve !',
+            'attr' => ['class' => 'btn btn-info']
         ]);
     }
 }

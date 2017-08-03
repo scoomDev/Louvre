@@ -1,4 +1,6 @@
 services:
-#    tl_core.example:
-#        class: TL\CoreBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    tl_core.validator.hours:
+        class: TL\CoreBundle\Validator\HoursValidator
+        arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: tl_core_hours }

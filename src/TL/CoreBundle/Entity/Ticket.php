@@ -69,7 +69,9 @@ class Ticket
      */
     private $command;
 
-
+    /* -------------------
+        GETTERS & SETTERS
+    -------------------- */
     /**
      * Get id
      *

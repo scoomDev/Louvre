@@ -35,13 +35,14 @@ class CoreController extends Controller
     public function informationsAction(Request $request)
     {
         $starInfo = $this->get('session')->get('startInfo');
+        $ticket = new Ticket();
         $command = new Command();
         $command->setDay($starInfo->getDay());
         $command->setCompleteName($starInfo->getCompleteName());
         $command->setEmail($starInfo->getEmail());
         $command->setNbrPerson($starInfo->getNbrPerson());
         $command->setType($starInfo->getType());
-
+        
         $form = $this->get('form.factory')->create(CommandType::class, $command);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
