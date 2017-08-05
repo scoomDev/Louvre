@@ -4,3 +4,6 @@ services:
         arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
         tags:
             - { name: validator.constraint_validator, alias: tl_core_hours }
+
+    tl_core.services.calculator:
+        class: TL\CoreBundle\Services\Calculator

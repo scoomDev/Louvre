@@ -6,11 +6,22 @@
 
 {% block body %}
     <div class="container">
+        {% include "TLCoreBundle:Core:inc/flashBag.html.twig" %}
         <h1>Billetterie</h1>
         <div class="row">
             <div class="col-md-8">
-                {% include "TLCoreBundle:Core:inc/sidebarInformations.html.twig" %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Informations</h4>
+                    </div>
+                    {% include "TLCoreBundle:Core:inc/sidebarInformations.html.twig" %}
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Tarifs</h4>
+                    </div>
                 {% include "TLCoreBundle:Core:inc/sidebarTarifs.html.twig" %}
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
@@ -26,3 +37,8 @@
         
     </div>
 {% endblock body %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset('js/verifyHours.js') }}"></script> 
+{% endblock javascript %}

@@ -46,7 +46,7 @@ class StartType extends AbstractType
         ])
         ->add('send', SubmitType::class, [
             'label' => 'Je réserve !',
-            'attr' => ['class' => 'btn btn-info']
+            'attr' => ['class' => 'btn btn-success']
         ]);
     }
 }

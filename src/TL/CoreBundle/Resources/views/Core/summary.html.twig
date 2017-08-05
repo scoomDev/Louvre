@@ -1,0 +1,95 @@
+{% extends "TLCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    Résumé de la commande - {{ parent() }}
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        {% include "TLCoreBundle:Core:inc/flashBag.html.twig" %}
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Résumé de la commande</h3>
+                    </div>
+                    {% set nbrTickets = command.tickets | length() %}
+                    <div class="panel-body">
+                        <div>
+                            <p>Vous voulez réserver {{ nbrTickets }} billet{{ nbrTickets > 1 ? 's' : '' }} 
+                                {{ command.type == 'day' ? 'journée' : 'demi-journée' }} pour le 
+                                {{ command.day | localizeddate('long', 'none') }}.
+                            </p>
+                            <p>Votre nom : <strong>{{ command.completeName }}</strong></p>
+                            <p>Votre email : <strong>{{ command.email }}</strong></p>
+                        </div>
+                        <hr>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Date de naissance</th>
+                                        <th>Tarifs</th>
+                                        <th>Prix</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ticket in command.tickets %}
+                                    <tr>
+                                        <td>{{ ticket.lastName | capitalize }}</td>
+                                        <td>{{ ticket.firstName | capitalize }}</td>
+                                        <td>{{ ticket.birthday | localizeddate('long', 'none') }}</td>
+                                        <td>
+                                            {% if ticket.price == 0 %}
+                                                gratuit (-de 4 ans)
+                                            {% elseif ticket.price == 4 %}
+                                                enfant
+                                            {% elseif ticket.price == 12 %}
+                                                sénior
+                                            {% elseif ticket.price == 10 %}
+                                                réduit <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Des justificatifs vous seront demandés."></span>
+                                            {% else %}
+                                                normal
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ ticket.price }}€</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr class="success">
+                                        {% if command.type == 'halfDay' %}
+                                        <td colspan="4">Tarif demi-journée</td>
+                                        <td>-50%</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">Total à payer :</td>
+                                        <td>{{ command.totalPrice }}€</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <form action="" method="POST">
+                            <div class="pull-right">
+                                <script
+                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="pk_test_5irHpUZ78C8sCcNIjLAPKelg"
+                                    data-amount={{ command.totalPrice * 100}}
+                                    data-name="Le Louvre"
+                                    data-description="Billetterie"
+                                    data-label="Payer par carte bancaire"
+                                    data-locale="auto"
+                                    data-currency="eur">
+                                </script>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

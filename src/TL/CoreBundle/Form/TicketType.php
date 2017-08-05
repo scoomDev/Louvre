@@ -26,7 +26,7 @@ class TicketType extends AbstractType
             'label' => 'Votre prénom'
         ])
         ->add('country', CountryType::class, [
-            'label' => 'pays',
+            'label' => 'Pays',
             'placeholder' => "Choississez votre pays"
         ])
         ->add('birthday', DateType::class, [
@@ -37,7 +37,8 @@ class TicketType extends AbstractType
             'attr' => ['class' => 'birthday']
         ])
         ->add('isReduced', CheckboxType::class, [
-            'label' => 'Prix réduit'
+            'label' => 'Prix réduit',
+            'required' => false
         ]);
     }
     

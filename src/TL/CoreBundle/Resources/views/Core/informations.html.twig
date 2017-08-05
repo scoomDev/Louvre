@@ -8,14 +8,15 @@
     <div class="container">
         <h1>Informations</h1>
         <div class="row">
-            {{ form_start(form) }}
+            {{ form_start(form, {attr: {id: 'payment-form'}}) }}
             <div class="col-md-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ form_label(form.tickets) }}</h3>
+                        <h3>{{ form_label(form.tickets) }}</h3>
                     </div>
                     <div class="panel-body">
-                        {{ form_row(form.tickets) }}
+                        {{ form_errors(form.tickets) }}
+                        {{ form_widget(form.tickets) }}
                         {{ form_row(form.send) }}
                     </div>
                 </div>
@@ -31,6 +32,9 @@
                         <p>Jour de la visite : <span class="pull-right">{{ startInfos.day | localizeddate('long', 'none') }}</span></p>
                         <p class="tickets"></p>
                         <div class="isReduced"></div>
+                        {% if startInfos.type == 'halfDay' %}
+                            <p class="halfDay">Demi-jourée<span class="pull-right">- 50%</span></p>
+                        {% endif %}
                         <hr>
                         <p>Total : <span class="pull-right"><span class="total_price">0</span>€</span></p>
                     </div>
@@ -44,12 +48,42 @@
                         {{ form_row(form.email) }}
                     </div>
                 </div>
-            {{ form_rest(form) }}
-            {{ form_end(form) }}
-                {% include "TLCoreBundle:Core:inc/sidebarInformations.html.twig" %}
-                {% include "TLCoreBundle:Core:inc/sidebarTarifs.html.twig" %}
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Informations +
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            {% include "TLCoreBundle:Core:inc/sidebarInformations.html.twig" %}
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                    Tarifs +
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+                            {% include "TLCoreBundle:Core:inc/sidebarTarifs.html.twig" %}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
+        </div>     
     </div>
 {% endblock body %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset('js/ticketPrice.js') }}"></script>
+{% endblock javascript %}

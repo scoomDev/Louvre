@@ -37,7 +37,16 @@ class CommandType extends AbstractType
         ])
         ->add('nbrPerson', HiddenType::class)
         ->add('tickets', CollectionType::class, [
+            'label' => 'Billets',
             'entry_type' => TicketType::class,
+            'entry_options' => [
+                'label_attr' => [
+                    'class' => 'label_tickets_box'
+                ],
+                'attr' => [
+                    'class' => 'tickets_box'
+                ]
+            ],
             'allow_add' => true,
             'allow_delete' => true
         ])

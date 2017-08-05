@@ -5,3 +5,7 @@ tl_core_homepage:
 tl_core_informations:
     path:     /informations
     defaults: { _controller: TLCoreBundle:Core:informations }
+
+tl_core_summary:
+    path:     /summary
+    defaults: { _controller: TLCoreBundle:Core:summary }

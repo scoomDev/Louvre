@@ -14,7 +14,11 @@ $(document).ready(function() {
                 totalPrice += priceArray[i];
             }
 
-            $('.total_price').html(totalPrice)
+            if ($('.halfDay').text() != '') {
+                $('.total_price').html(totalPrice/2)
+            } else {
+                $('.total_price').html(totalPrice)
+            }
         })
     }
 
@@ -51,7 +55,6 @@ $(document).ready(function() {
                     checkbox[index+1].attr("disabled", true)
                 } else if(interval < 4) {
                     $('.ticket_'+index).html('1 ticket gratuit <span class="pull-right"><span class="price">0</span>€</span>')
-                    console.log('disabled checkbox !!')
                     checkbox[index+1].attr("disabled", true)
                 } else {
                     checkbox[index+1].removeAttr("disabled")
@@ -64,7 +67,6 @@ $(document).ready(function() {
             definePrice();
             price = $('.price')
             changePrice(price)
-            
         })
     })
 });

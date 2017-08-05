@@ -1,6 +1,5 @@
 $(document).ready(function() {
     let today = new Date();
-    console.log(today.getHours())
     let todayDate = today.getDate() + '/' + today.getMonth() + '/' + today.getFullYear()
 
     let toDate = function(dateStr) {
@@ -16,7 +15,7 @@ $(document).ready(function() {
     }
     
     let verifyHours = function(todayDate, dayDate) {
-        if(todayDate === dayDate && today.getHours() >= '12') {
+        if(todayDate === dayDate && today.getHours() >= '14') {
             $('#start_type option[value="day"]').attr('disabled', 'disabled')
             $('#start_type').val("halfDay")
             $('#start_type').trigger('chosen:updated')
@@ -31,5 +30,4 @@ $(document).ready(function() {
         dayDate = getDayPicker()
         verifyHours(todayDate, dayDate)
     })
-    
 })

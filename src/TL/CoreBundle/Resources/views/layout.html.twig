@@ -11,6 +11,8 @@
     <title>{% block title %}Billetterie Louvre{% endblock title %}</title>
 
     {% block stylesheet %}
+    <!-- Font ROBOTO -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
     <!-- Twitter Boostrap CSS CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Personal CSS -->
@@ -34,8 +36,10 @@
     {% block body %}
     {% endblock body %}
 
-    <footer>
-        
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; copyright Le Louvre {{ 'now' | date('Y') }}<span class="pull-right"><a href="http://scoomdev.eu">webmaster</a></span></p>
+        </div>
     </footer>
     {% block javascript %}
     <!-- Jquery CDN -->
@@ -52,10 +56,12 @@
     <script src="{{ asset('js/pickadate/lib/picker.date.js') }}"></script>
     <script src="{{ asset('js/pickadate/lib/translations/fr_FR.js') }}"></script>
     <script src="{{ asset('js/init-pickadate.js') }}"></script>
-    <!-- Personal JS -->
-    <!-- Defined the Price dynamically -->
-    <script src="{{ asset('js/ticketPrice.js') }}"></script>
-     <script src="{{ asset('js/app.js') }}"></script> 
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+            $('.collapse').collapse()
+        })
+    </script>       
     {% endblock javascript %}
 </body>
 </html>
