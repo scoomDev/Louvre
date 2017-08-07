@@ -5,5 +5,18 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: tl_core_hours }
 
+    tl_core.validator.closed:
+        class: TL\CoreBundle\Validator\ClosedValidator
+        arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: tl_core_closed }
+
+    tl_core.validator.day:
+        class: TL\CoreBundle\Validator\DayValidator
+        arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: tl_core_day }
+
     tl_core.services.calculator:
         class: TL\CoreBundle\Services\Calculator
+

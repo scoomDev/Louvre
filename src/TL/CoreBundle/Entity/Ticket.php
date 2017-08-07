@@ -3,6 +3,7 @@
 namespace TL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Ticket
@@ -25,6 +26,9 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=255)
+     * @Assert\Type("string")
+     * @Assert\Length(min=2, minMessage="Veuillez entrer votre nom.")
+     * @Assert\NotBlank(message="Veuillez remplir ce champs.")
      */
     private $lastName;
 
@@ -32,6 +36,10 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=255)
+     * @Assert\Type("string")
+     * @Assert\Length(min=2, minMessage="Veuillez entrer votre prénom.")
+     * @Assert\NotBlank(message="Veuillez remplir ce champs.")
+     * @Assert\NotNull(message="Veuillez remplir ce champs.")
      */
     private $firstName;
 
@@ -39,6 +47,7 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="country", type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez choisir votre pays.")
      */
     private $country;
 
@@ -46,6 +55,8 @@ class Ticket
      * @var \DateTime
      *
      * @ORM\Column(name="birthday", type="datetime")
+     * @Assert\NotBlank(message="Veuillez choisir votre date de naissance.")
+     * @Assert\Date()
      */
     private $birthday;
 
@@ -257,7 +268,7 @@ class Ticket
      *
      * @return Ticket
      */
-    public function setCommand(\TL\CoreBundle\Command $command)
+    public function setCommand(\TL\CoreBundle\Entity\Command $command)
     {
         $this->command = $command;
 

@@ -34,7 +34,10 @@ class TicketType extends AbstractType
             'widget' => 'single_text',
             'html5' => false,
             'format' => 'yyyy/MM/dd',
-            'attr' => ['class' => 'birthday']
+            'attr' => [
+                'class' => 'birthday',
+                'placeholder' => 'Cliquez ici'
+            ]
         ])
         ->add('isReduced', CheckboxType::class, [
             'label' => 'Prix réduit',

@@ -3,6 +3,7 @@
 namespace TL\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Command
@@ -25,6 +26,8 @@ class Command
      * @var \DateTime
      *
      * @ORM\Column(name="day", type="datetime")
+     * @Assert\Date()
+     * @Assert\NotBlank()
      */
     private $day;
 
@@ -32,6 +35,9 @@ class Command
      * @var string
      *
      * @ORM\Column(name="complete_name", type="string", length=255)
+     * @Assert\Type("String")
+     * @Assert\Length(min=2, minMessage="Veuillez entrer votre nom complet.")
+     * @Assert\NotBlank(message="Veuillez remplir ce champs.")
      */
     private $completeName;
 
@@ -39,6 +45,8 @@ class Command
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email(message="L'email {{ value }}, n'est pas un email valide.", checkMX=true)
+     * @Assert\NotBlank(message="Veuillez remplir ce champs.")
      */
     private $email;
 
@@ -60,11 +68,13 @@ class Command
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="TL\CoreBundle\Entity\Ticket", mappedBy="command")
+     * @ORM\OneToMany(targetEntity="TL\CoreBundle\Entity\Ticket", cascade="persist", mappedBy="command")
+     * $Assert\NotNull()
      */
     private $tickets;
 
@@ -239,6 +249,7 @@ class Command
      */
     public function addTicket(\TL\CoreBundle\Entity\Ticket $ticket)
     {
+        $ticket->setCommand($this);
         $this->tickets[] = $ticket;
 
         return $this;

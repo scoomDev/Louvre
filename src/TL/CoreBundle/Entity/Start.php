@@ -4,6 +4,8 @@ namespace TL\CoreBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use TL\CoreBundle\Validator\Hours;
+use TL\CoreBundle\Validator\Closed;
+use TL\CoreBundle\Validator\Day;
 
 /**
  * Captures informations from the first form
@@ -11,11 +13,14 @@ use TL\CoreBundle\Validator\Hours;
 class Start
 {
     /**
-     * day of the visit
+     * Day of the visit
      *
      * @var \Datetime
      * 
-     * @Assert\NotNull(message="Veuillez choisir une date de visite.")
+     * @Assert\NotBlank(message="Veuillez choisir une date de visite.")
+     * @Assert\Date()
+     * @Closed()
+     * @Day()
      */
     private $day;
 
@@ -25,7 +30,7 @@ class Start
      * @var string
      * 
      * @Assert\Type("string")
-     * @Assert\Length(min=2)
+     * @Assert\Length(min=2, minMessage="Veuillez entrer votre nom complet.")
      * @Assert\NotBlank(message="Veuillez remplir ce champs.")
      */
     private $completeName;

@@ -31,6 +31,7 @@
                                         <th>Nom</th>
                                         <th>Prénom</th>
                                         <th>Date de naissance</th>
+                                        <th>Type</th>
                                         <th>Tarifs</th>
                                         <th>Prix</th>
                                     </tr>
@@ -41,6 +42,7 @@
                                         <td>{{ ticket.lastName | capitalize }}</td>
                                         <td>{{ ticket.firstName | capitalize }}</td>
                                         <td>{{ ticket.birthday | localizeddate('long', 'none') }}</td>
+                                        <td>{{ command.type == 'halfDay' ? 'Demi-journée' : 'journée' }}</td>
                                         <td>
                                             {% if ticket.price == 0 %}
                                                 gratuit (-de 4 ans)
@@ -59,14 +61,8 @@
                                     {% endfor %}
                                 </tbody>
                                 <tfoot>
-                                    <tr class="success">
-                                        {% if command.type == 'halfDay' %}
-                                        <td colspan="4">Tarif demi-journée</td>
-                                        <td>-50%</td>
-                                        {% endif %}
-                                    </tr>
                                     <tr>
-                                        <td colspan="4">Total à payer :</td>
+                                        <td colspan="5">Total à payer :</td>
                                         <td>{{ command.totalPrice }}€</td>
                                     </tr>
                                 </tfoot>

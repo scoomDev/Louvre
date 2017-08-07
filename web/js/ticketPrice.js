@@ -51,7 +51,7 @@ $(document).ready(function() {
                     checkbox[index+1].removeAttr("disabled")
                     $('.ticket_'+index).html('1 ticket senior <span class="pull-right"><span class="price">12</span>€</span>')
                 } else if(interval < 12 && interval >= 4) {
-                    $('.ticket_'+index).html('1 ticket enfant <span class="pull-right"><span class="price">4</span>€</span>')
+                    $('.ticket_'+index).html('1 ticket enfant <span class="pull-right"><span class="price">8</span>€</span>')
                     checkbox[index+1].attr("disabled", true)
                 } else if(interval < 4) {
                     $('.ticket_'+index).html('1 ticket gratuit <span class="pull-right"><span class="price">0</span>€</span>')

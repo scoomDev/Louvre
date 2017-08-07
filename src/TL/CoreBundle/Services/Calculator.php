@@ -8,7 +8,6 @@ class Calculator
     public function age($today, $birthday)
     {
         $result = ($today->getTimestamp() - $birthday->getTimestamp())/365/30/24/60/2;
-
         return floor($result);
     }
 

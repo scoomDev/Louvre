@@ -24,10 +24,12 @@ class StartType extends AbstractType
         ->add('day', DateType::class, [
             'label' => 'Jour de la visite',
             'widget' => 'single_text',
-            'placeholder' => 'cliquez ici !',
             'html5' => false,
             'format' => 'yyyy/MM/dd',
-            'attr' => ['class' => 'datepicker']
+            'attr' => [
+                'class' => 'datepicker',
+                'placeholder' => 'cliquez ici pour choisir votre date.'
+            ]
         ])
         ->add('completeName', TextType::class, ['label' => 'Votre nom complet'])
         ->add('email', EmailType::class, ['label' => 'Votre adresse email'])
