@@ -20,3 +20,16 @@ services:
     tl_core.services.calculator:
         class: TL\CoreBundle\Services\Calculator
 
+    tl_core.services.email:
+        class: TL\CoreBundle\Services\Email\TicketsMailer
+        arguments:
+            - "@mailer"
+            - "@templating"
+
+    tl_core.doctrine_listener.command_validation:
+        class: TL\CoreBundle\DoctrineListener\CommandValidationListener
+        arguments:
+            - "@tl_core.services.email"
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+

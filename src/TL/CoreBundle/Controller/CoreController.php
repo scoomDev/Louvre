@@ -51,7 +51,12 @@ class CoreController extends Controller
      * @return Response
      */
     public function informationsAction(Request $request)
-    {
+    {   
+        if (empty($this->get('session')->get('startInfo'))) {
+            $this->addFlash("error","Vous avez été redirigé vers la page d'accueil pour pouvoir nous fourni les informations attendus pour votre réservation. Merci de votre compréhension.");
+            return $this->redirectToRoute('tl_core_homepage');
+        }
+
         /**
          * BREADCRUMBS White October Bundle
          */
@@ -64,18 +69,19 @@ class CoreController extends Controller
          * Service Calculator - TLCoreBundle\Services\Calculator
          */
         $calculator = $this->container->get('tl_core.services.calculator');
-        $starInfo = $this->get('session')->get('startInfo');
+        $startInfo = $this->get('session')->get('startInfo');
         
         $ticket = new Ticket();
+        $command = new Command();
+        
         /**
          * Hydrate Command
          */
-        $command = new Command();
-        $command->setDay($starInfo->getDay());
-        $command->setCompleteName($starInfo->getCompleteName());
-        $command->setEmail($starInfo->getEmail());
-        $command->setNbrPerson($starInfo->getNbrPerson());
-        $command->setType($starInfo->getType());
+        $command->setDay($startInfo->getDay());
+        $command->setCompleteName($startInfo->getCompleteName());
+        $command->setEmail($startInfo->getEmail());
+        $command->setNbrPerson($startInfo->getNbrPerson());
+        $command->setType($startInfo->getType());
         
         $form = $this->get('form.factory')->create(CommandType::class, $command);
 
@@ -87,7 +93,7 @@ class CoreController extends Controller
             for ($i=1; $i <= count($form->getData()->getTickets()); $i++) {
                 $actualTicket = $form->getData()->getTickets()['ticket'.$i];
                 $birthday = $actualTicket->getBirthday();
-                $age = $calculator->age($starInfo->getDay(), $birthday);
+                $age = $calculator->age($startInfo->getDay(), $birthday);
                 if($actualTicket->getIsReduced() === true) {
                     $price = 10;
                 } else {
@@ -125,7 +131,7 @@ class CoreController extends Controller
 
         return $this->render('TLCoreBundle:Core:informations.html.twig', [
             'form' => $form->createView(),
-            'startInfos' => $starInfo
+            'startInfos' => $startInfo
         ]);
     }
 
@@ -136,7 +142,11 @@ class CoreController extends Controller
      * @return Response
      */
     public function summaryAction(Request $request)
-    {
+    {   
+        if (empty($this->get('session')->get('command'))) {
+            $this->addFlash("error","Vous avez été redirigé vers la page d'accueil pour pouvoir nous fourni les informations attendus pour votre réservation. Merci de votre compréhension.");
+            return $this->redirectToRoute('tl_core_homepage');
+        }
         $em = $this->getDoctrine()->getManager();
 
         /**

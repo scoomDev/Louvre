@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="font-family:Arial, Helvetica, sans-serif;">
+
+<h3 align="center">Billetterie du musée du Louvre</h3>
+<p>{{ completeName | capitalize }}, voici les billets que vous venez de réserver pour la journée du {{ day | date('d m, Y') }}</p>
+<table width="100%" border=".5" cellpadding="0" cellspacing="0">
+    <thead>
+        <tr height="30">
+            <th>Date</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Type</th>
+            <th>Tarif</th>
+            <th>Prix</th>
+        </tr>
+    </thead>
+    {% for ticket in tickets %}
+    <tbody align="center">
+        <tr height="30">
+            <td>{{ day | date('d m, Y') }}</td>
+            <td>{{ ticket.lastName | capitalize }}</td>
+            <td>{{ ticket.firstName | capitalize }}</td>
+            <td>{{ type }}</td>
+            {% if ticket.price == 8 %}
+                <td>Sénior</td>
+            {% elseif ticket.price == 10 %}
+                <td>Réduit*</td>
+            {% elseif ticket.price == 4 %}
+                <td>Enfant</td>
+            {% elseif ticket.price == 0 %}
+                <td>Gratuit</td>
+            {% else %}    
+                <td>Normal</td>
+            {% endif %}
+            <td>{{ ticket.price }}</td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+<p><em>* Pour les tarifs réduit, veuillez vous munir de vos justificatifs.</em></p>
+<hr>
+<footer>
+    <p>Le Louvre vous remercie de votre confiance et vous souhaite une agréable visite de notre musée.</p>
+</footer>
+</body>
+</html>

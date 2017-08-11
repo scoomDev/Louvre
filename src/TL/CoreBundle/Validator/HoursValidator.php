@@ -24,7 +24,7 @@ class HoursValidator extends ConstraintValidator
         $today = new \Datetime();
 
         if($today->format('Y/m/d') === $request->get('start')['day']) {
-            if($today->format('H') >= "15") {
+            if($today->format('H') >= "14") {
                 if($value === 'day') {
                     $this->context->addViolation($constraint->message);
                 }
