@@ -21,14 +21,16 @@ class HoursValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         $request = $this->requestStack->getCurrentRequest();
-        $today = new \Datetime();
 
-        if($today->format('Y/m/d') === $request->get('start')['day']) {
+        $today = new \Datetime();
+        $choose_date = $this->context->getObject()->getDay();
+    
+        if($today->format('Y/m/d') === $choose_date->format('Y/m/d')) {
             if($today->format('H') >= "14") {
                 if($value === 'day') {
                     $this->context->addViolation($constraint->message);
                 }
             }
-        }        
+        }                
     }
 }

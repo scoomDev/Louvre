@@ -3,34 +3,22 @@
 namespace TL\CoreBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 use TL\CoreBundle\Entity\Start;
-use TL\CoreBundle\Form\StartType;
+use TL\CoreBundle\Entity\Ticket;
+use TL\CoreBundle\Entity\Command;
 use TL\CoreBundle\Validator\Day;
 
 class CoreControllerTest extends WebTestCase
 {
-
     private function getKernel()
     {
         $kernel = $this->createKernel();
         $kernel->boot();
 
         return $kernel;
-    }
-
-    /**
-     * @test
-     */
-    public function hoursValidator()
-    {
-        $kernel = $this->getKernel();
-        $validator = $kernel->getContainer()->get('tl_core.validator.hours');
-
-        $violationList = $validator->validate('day', new Day);
-
-        $this->assertEquals(1, $violationList->count());
-        // or any other like:
-        $this->assertEquals('client not valid', $violationList[0]->getMessage());
     }
 
     /**
@@ -51,24 +39,28 @@ class CoreControllerTest extends WebTestCase
      */
     public function informations()
     {
+        $kernel = $this->getKernel();
         $client = static::createClient();
         $container = $client->getContainer();
-        $em = $container->get('doctrine')->getManager();
         $session = $container->get('session');
-        /* dump($client->getContainer()->get('session'));
-        die; */
+        $validator = $container->get('validator');
+        $em = $container->get('doctrine')->getManager();
 
         $start = new Start();
-        $start->setDay(new \Datetime())
+        $start->setDay(new \Datetime('2017-08-16'))
             ->setCompleteName('Soetaert Christopher')
+            ->setEmail('soetaert.chris@gmail.com')
             ->setnbrPerson(2)
             ->setType('haldDay');
 
         $session->set('startInfo', $start);
-        $startInfo = $session->get('startInfo');
-        $crawler = $client->request('GET', '/informations', ['startInfo' => $startInfo]);
+        
+        $errors = $validator->validate($start);
+        
+        $crawler = $client->request('GET', '/informations');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(0, count($errors));
     }
 
     /**
@@ -76,11 +68,50 @@ class CoreControllerTest extends WebTestCase
      */
     public function summary()
     {
+        $kernel = $this->getKernel();
         $client = static::createClient();
+        $container = $client->getContainer();
+        $session = $container->get('session');
+        $validator = $container->get('validator');
+        $calculator = $container->get('tl_core.services.calculator');
+        $today = new \Datetime();
 
+        $ticket1 = new Ticket();
+        $ticket1->setLastName('Soetaert')
+            ->setFirstName('Christopher')
+            ->setCountry('FR')
+            ->setBirthday(new \Datetime('1985-05-24'))
+            ->setIsReduced(true);
+
+        $ticket2 = new Ticket();
+        $ticket2->setLastName('Mourlas')
+            ->setFirstName('Camille')
+            ->setCountry('FR')
+            ->setBirthday(new \Datetime('1987-08-29'))
+            ->setIsReduced(false);
+
+        $command = new Command();
+        $command->setDay(new \Datetime())
+            ->setCompleteName('Soetaert Christopher')
+            ->setEmail('soetaert.chris@gmail.com')
+            ->setnbrPerson(2)
+            ->setType('halfDay');
+        $command->addTicket($ticket1);
+        $command->addTicket($ticket2);
+
+        $totalPrice = [];
+        foreach ($command->getTickets() as $ticket) {
+            $age = $calculator->age($today, $ticket->getBirthday());
+            $price = $calculator->price($age, $command->getType(), $ticket->getIsReduced());
+            $totalPrice[] = $price;
+        }
+
+        $session->set('command', $command);        
+        $errors = $validator->validate($command);
         $crawler = $client->request('GET', '/summary');
 
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(0, count($errors));
+        $this->assertEquals(13, array_sum($totalPrice));
     }
-     
 }

@@ -11,7 +11,7 @@ class Calculator
         return floor($result);
     }
 
-    public function price($age)
+    public function price($age, $type, $isReduced)
     {
         $price = 0;
 
@@ -21,11 +21,17 @@ class Calculator
             $price = 8;
         } else if($age < 4) {
             $price = 0;
+        } else if($isReduced === true) {
+            $price = 10;
         } else {
             $price = 16;
         }
 
-        return $price;
+        if ($type === 'halfDay') {
+            return $price/2;
+        } else {
+            return $price;
+        }
     }
 
 }

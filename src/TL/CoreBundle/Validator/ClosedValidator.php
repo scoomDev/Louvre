@@ -18,17 +18,15 @@ class ClosedValidator extends ConstraintValidator
         $this->em = $em;
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($choose_date, Constraint $constraint)
     {
         $request = $this->requestStack->getCurrentRequest();
-        $choose_date = $request->get('start')['day'];
         $today = new \Datetime();
-        $date = \Datetime::createFromFormat('Y/m/d', $choose_date);
-        $date_day = $date->format('N');
-        $date_hours = $date->format('H');
-        $date_minutes = $date->format('i');
+        $date_day = $today->format('N');
+        $date_hours = $today->format('H');
+        $date_minutes = $today->format('i');
 
-        if ($today->format('Y/m/d') == $choose_date) {
+        if ($today->format('Y/m/d') == $choose_date->format('Y/m/d')) {
             if($date_day == 1 || $date_day == 4 || $date_day == 6 || $date_day == 7) {
                 if($date_hours >= 18) {
                     $this->context->addViolation($constraint->message);
@@ -38,6 +36,6 @@ class ClosedValidator extends ConstraintValidator
                     $this->context->addViolation($constraint->message);
                 }
             } 
-        }      
+        }
     }
 }

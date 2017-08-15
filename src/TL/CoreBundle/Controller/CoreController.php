@@ -94,29 +94,12 @@ class CoreController extends Controller
                 $actualTicket = $form->getData()->getTickets()['ticket'.$i];
                 $birthday = $actualTicket->getBirthday();
                 $age = $calculator->age($startInfo->getDay(), $birthday);
-                if($actualTicket->getIsReduced() === true) {
-                    $price = 10;
-                } else {
-                    $price = $calculator->price($age);
-                }
+                $price = $calculator->price($age, $command->getType(), $actualTicket->getIsReduced());
                 $totalPriceArray[] = $price;
-
-                if($command->getType() === 'halfDay') {
-                    $actualTicket->setPrice($price/2);
-                } else {
-                    $actualTicket->setPrice($price);
-                }
+                $actualTicket->setPrice($price);
             }
-
-            /**
-             * Checks the type of tickets
-             */
-            if($command->getType() === 'halfDay') {
-                $totalPrice = array_sum($totalPriceArray)/2;
-            } else {
-                $totalPrice = array_sum($totalPriceArray);
-            }
-
+            
+            $totalPrice = array_sum($totalPriceArray);
             $command->setTotalPrice($totalPrice);
 
             foreach ($command->getTickets() as $ticket) {

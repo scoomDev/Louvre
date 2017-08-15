@@ -17,6 +17,12 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: tl_core_day }
 
+    tl_core.validator.invalid_day:
+        class: TL\CoreBundle\Validator\InvalidDayValidator
+        arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: tl_core_invalid_day }
+
     tl_core.services.calculator:
         class: TL\CoreBundle\Services\Calculator
 
