@@ -39,7 +39,7 @@ class CoreController extends Controller
             return $this->redirectToRoute('tl_core_informations');
         }
 
-            return $this->render('TLCoreBundle:Core:index.html.twig', [
+        return $this->render('TLCoreBundle:Core:index.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -69,6 +69,7 @@ class CoreController extends Controller
          * Service Calculator - TLCoreBundle\Services\Calculator
          */
         $calculator = $this->container->get('tl_core.services.calculator');
+
         $startInfo = $this->get('session')->get('startInfo');
         
         $ticket = new Ticket();
@@ -130,6 +131,7 @@ class CoreController extends Controller
             $this->addFlash("error","Vous avez été redirigé vers la page d'accueil pour pouvoir nous fourni les informations attendus pour votre réservation. Merci de votre compréhension.");
             return $this->redirectToRoute('tl_core_homepage');
         }
+
         $em = $this->getDoctrine()->getManager();
 
         /**
@@ -165,7 +167,6 @@ class CoreController extends Controller
                 $this->addFlash("success","Votre paiement a bien été accepté, vous allez recevoir vos billets par email. Le Louvre vous remercie !");
                 return $this->redirectToRoute("tl_core_homepage");
             } catch(\Stripe\Error\Card $e) {
-
                 $this->addFlash("error","Il semblerait qu'il y ai eu un soucis, réessayez et si cela ne fonctionne toujours, veuillez contacter nos services, merci.");
                 return $this->redirectToRoute("tl_core_summary");
             }

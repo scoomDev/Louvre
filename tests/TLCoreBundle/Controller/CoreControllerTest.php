@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use TL\CoreBundle\Entity\Start;
 use TL\CoreBundle\Entity\Ticket;
 use TL\CoreBundle\Entity\Command;
-use TL\CoreBundle\Validator\Day;
 
 class CoreControllerTest extends WebTestCase
 {
@@ -44,7 +43,6 @@ class CoreControllerTest extends WebTestCase
         $container = $client->getContainer();
         $session = $container->get('session');
         $validator = $container->get('validator');
-        $em = $container->get('doctrine')->getManager();
 
         $start = new Start();
         $start->setDay(new \Datetime('2017-08-16'))

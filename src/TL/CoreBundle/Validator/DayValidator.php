@@ -10,12 +10,10 @@ use Symfony\Component\Validator\ConstraintValidator;
 class DayValidator extends ConstraintValidator
 {
     private $requestStack;
-    private $em;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
+    public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
-        $this->em = $em;
     }
 
     public function validate($choose_date, Constraint $constraint)

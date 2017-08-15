@@ -1,27 +1,21 @@
 services:
     tl_core.validator.hours:
         class: TL\CoreBundle\Validator\HoursValidator
-        arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
+        arguments: ["@request_stack"]
         tags:
             - { name: validator.constraint_validator, alias: tl_core_hours }
 
     tl_core.validator.closed:
         class: TL\CoreBundle\Validator\ClosedValidator
-        arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
+        arguments: ["@request_stack"]
         tags:
             - { name: validator.constraint_validator, alias: tl_core_closed }
 
     tl_core.validator.day:
         class: TL\CoreBundle\Validator\DayValidator
-        arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
+        arguments: ["@request_stack"]
         tags:
             - { name: validator.constraint_validator, alias: tl_core_day }
-
-    tl_core.validator.invalid_day:
-        class: TL\CoreBundle\Validator\InvalidDayValidator
-        arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
-        tags:
-            - { name: validator.constraint_validator, alias: tl_core_invalid_day }
 
     tl_core.services.calculator:
         class: TL\CoreBundle\Services\Calculator

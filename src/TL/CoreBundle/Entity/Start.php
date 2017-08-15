@@ -6,7 +6,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use TL\CoreBundle\Validator\Hours;
 use TL\CoreBundle\Validator\Closed;
 use TL\CoreBundle\Validator\Day;
-use TL\CoreBundle\Validator\InvalidDay;
 
 /**
  * Captures informations from the first form
@@ -22,7 +21,6 @@ class Start
      * @Assert\DateTime()
      * @Closed()
      * @Day()
-     * @InvalidDay()
      */
     private $day;
 
