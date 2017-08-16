@@ -73,6 +73,13 @@ class Command
     private $type;
 
     /**
+     * Unique code of reservation
+     *
+     * @var string
+     */
+    private $codeReservation;
+
+    /**
      * @ORM\OneToMany(targetEntity="TL\CoreBundle\Entity\Ticket", cascade="persist", mappedBy="command")
      * $Assert\NotNull()
      */
@@ -238,6 +245,30 @@ class Command
     public function getCompleteName()
     {
         return $this->completeName;
+    }
+
+    /**
+     * Set codeReservation
+     *
+     * @param string $codeReservation
+     *
+     * @return Command
+     */
+    public function setCodeReservation($codeReservation)
+    {
+        $this->codeReservation = $codeReservation;
+
+        return $this;
+    }
+
+    /**
+     * Get codeReservation
+     *
+     * @return string
+     */
+    public function getCodeReservation()
+    {
+        return $this->codeReservation;
     }
 
     /**

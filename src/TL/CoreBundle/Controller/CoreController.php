@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use TL\CoreBundle\Entity\Command;
 use TL\CoreBundle\Entity\Ticket;
 use TL\CoreBundle\Entity\Start;
+use TL\CoreBundle\Entity\Day;
 
 use TL\CoreBundle\Form\CommandType;
 use TL\CoreBundle\Form\TicketType;
@@ -57,6 +58,8 @@ class CoreController extends Controller
             return $this->redirectToRoute('tl_core_homepage');
         }
 
+        $em = $this->getDoctrine()->getManager();
+
         /**
          * BREADCRUMBS White October Bundle
          */
@@ -83,6 +86,17 @@ class CoreController extends Controller
         $command->setEmail($startInfo->getEmail());
         $command->setNbrPerson($startInfo->getNbrPerson());
         $command->setType($startInfo->getType());
+
+        /**
+         * Hydrate Day
+         */
+        $day = $em->getRepository('TLCoreBundle:Day')->findOneByDay($command->getDay());
+        
+        if (empty($day)) {
+            $nbrTickets = 0;
+        } else {
+            $nbrTickets = $day->getnbrTickets();
+        }
         
         $form = $this->get('form.factory')->create(CommandType::class, $command);
 
@@ -98,8 +112,9 @@ class CoreController extends Controller
                 $price = $calculator->price($age, $command->getType(), $actualTicket->getIsReduced());
                 $totalPriceArray[] = $price;
                 $actualTicket->setPrice($price);
+                $nbrTickets += 1;
             }
-            
+
             $totalPrice = array_sum($totalPriceArray);
             $command->setTotalPrice($totalPrice);
 
@@ -107,9 +122,12 @@ class CoreController extends Controller
                 $ticket->setCommand($command);
             }
 
+            $reservationCode = $command->getDay()->format('Ymd') . '-' . hash('crc32b', $command->getCompleteName()) . '-' . $nbrTickets;
+            $command->setCodeReservation($reservationCode);
             $session = $this->get('session');
             $session->set('command', $command);
-
+            $session->set('nbrTickets', $nbrTickets);
+            
             return $this->redirectToRoute('tl_core_summary');
         }
 
@@ -144,6 +162,8 @@ class CoreController extends Controller
             ->addItem("Récapitulatif", $this->get("router"));
 
         $command = $this->get('session')->get('command');
+        $nbrTickets = $this->get('session')->get('nbrTickets');
+        $day = $em->getRepository('TLCoreBundle:Day')->findOneByDay($command->getDay());
         
         /**
          * Stripe payment module
@@ -161,6 +181,14 @@ class CoreController extends Controller
                     "description" => "Paiement Stripe - billetterie Le Louvre"
                 ));
 
+                if(empty($day)) {
+                    $day = new Day();
+                    $day->setDay($command->getDay())
+                    ->setNbrTickets($nbrTickets);
+                    $em->persist($day);
+                } else {
+                    $day->setNbrTickets($nbrTickets);
+                }
                 $em->persist($command);
                 $em->flush();
 

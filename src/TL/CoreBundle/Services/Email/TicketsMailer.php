@@ -30,7 +30,8 @@ class TicketsMailer
                         'completeName' => $command->getCompleteName(),
                         'day' => $command->getDay(),
                         'type' => $command->getType(),
-                        'tickets' => $command->getTickets()
+                        'tickets' => $command->getTickets(),
+                        'codeReservation' => $command->getCodeReservation()
                     ]
                 ),
                 'text/html'

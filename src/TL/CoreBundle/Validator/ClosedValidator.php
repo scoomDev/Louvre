@@ -33,13 +33,13 @@ class ClosedValidator extends ConstraintValidator
                 if($date_hours >= 21 && $date_minutes >= 45) {
                     $this->context->addViolation($constraint->message2);
                 }
-            }   
+            } else if ($choose_date->format('N') == 2 || $choose_date->format('N') == 7) {
+                $this->context->addViolation($constraint->message4);
+            }
         } else if ($today->format('Y/m') == $choose_date->format('Y/m')){
             if ($today->format('d') > $choose_date->format('d')) {
                 $this->context->addViolation($constraint->message3);
             }
-        } else if ($choose_date->format('N') == 2 || $choose_date->format('N') == 7) {
-            $this->context->addViolation($constraint->message4);
         }
     }
 }

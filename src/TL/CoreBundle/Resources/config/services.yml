@@ -17,6 +17,12 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: tl_core_day }
 
+    tl_core.validator.limit:
+        class: TL\CoreBundle\Validator\LimitValidator
+        arguments: ["@request_stack", "@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: tl_core_limit }
+
     tl_core.services.calculator:
         class: TL\CoreBundle\Services\Calculator
 
